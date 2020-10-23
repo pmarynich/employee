@@ -16,12 +16,14 @@ class EmployeeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function index()
+    public function index(Employee $employee)
     {
         $employees = DB::table('employees')->get();
+        $employees = $employee->sortable('lastname')->paginate(5);
 
-        return view('demo', ['employees' => $employees]);
+        return view('employees.index', compact('employees'), ['employees' => $employees]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -30,7 +32,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
+        return view('employees.create');
     }
 
     /**
@@ -41,7 +43,19 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'salary' => 'required',
+            'employed_at' => 'required'
+        ]);
+
+        Employee::create($request->all());
+
+        $employee->save();
+
+        return redirect()->route('employees.index')
+            ->with('success', 'Employee created successfully.');
     }
 
     /**
@@ -52,7 +66,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        //
+        return view('employees.show', compact('employee'));
     }
 
     /**
@@ -63,7 +77,7 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-        //
+        return view('employees.edit', compact('employee'));
     }
 
     /**
@@ -75,7 +89,9 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, Employee $employee)
     {
-        //
+        
+        return redirect()->route('employees.index')
+            ->with('success', 'Employee updated successfully');
     }
 
     /**
@@ -86,6 +102,9 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        //
+        $employee->delete();
+
+        return redirect()->route('employees.index')
+            ->with('success', 'Employee deleted successfully');
     }
 }

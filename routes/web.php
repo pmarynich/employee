@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EmployeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,8 +24,9 @@ Route::get('/home', function () {
 
 
 
-Route::get('/demo', [App\Http\Controllers\EmployeeController::class, 'index'])->name('demo');
+//oute::get('employees/index', [App\Http\Controllers\EmployeeController::class, 'index'])->name('index');
 
 Auth::routes();
 
+Route::resource('employees', EmployeeController::class);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

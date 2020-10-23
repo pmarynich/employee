@@ -6,7 +6,7 @@
 
 <meta name="author" content="">
 
-<title>Album example for Bootstrap</title>
+<title>Employees Main Page</title>
 
 <!-- Bootstrap core CSS -->
 
